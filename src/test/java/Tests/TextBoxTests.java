@@ -19,7 +19,7 @@ public class TextBoxTests {
 
     @BeforeAll
     static void setUp(){
-        Configuration.startMaximized = true;
+        Configuration.browserSize="1920x1080";
 
     }
 
