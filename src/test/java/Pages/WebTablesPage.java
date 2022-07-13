@@ -32,16 +32,19 @@ public class WebTablesPage {
 
     private String deleteButton = "#delete-record-";
 
+    private SelenideElement nextButton = $(".-next");
+
+    private SelenideElement previousButton = $(".-previous");
+
     private ElementsCollection result = $$(".rt-tr-group");
 
-    private SelenideElement rowsNumber = $(".select-wrap.-pageSizeOptions");
+    private SelenideElement rowsNumber = $(by("aria-label","rows per page"));
 
     public static void openPage(){
         open(baseURL);
     }
 
-    public void addRecord(String fName, String lName, String email, String age, String salary, String department){
-        addPeople.click();
+    public void fillForms(String fName, String lName, String email, String age, String salary, String department){
         putFirstName.setValue(fName);
         putLastName.setValue(lName);
         putEmail.setValue(email);
@@ -51,11 +54,32 @@ public class WebTablesPage {
         submitButton.click();
     }
 
-    public SelenideElement getAddedResult(){
-        return result.filter(not(Condition.empty)).last();
+    public void addRecord(String fName, String lName, String email, String age, String salary, String department){
+        addPeople.click();
+        fillForms(fName,lName,email,age,salary,department);
+    }
+
+    public void editRecords(int id,String fName, String lName, String email, String age, String salary, String department){
+        $(editButton+id).click();
+        fillForms(fName,lName,email,age,salary,department);
+    }
+
+    public void deleteRecord(int id){
+        $(deleteButton+id).click();
+    }
+    public ElementsCollection getResult(){
+        return result.filter(not(Condition.empty));
     }
 
     public void setRowsNumber(String nrows){
-        rowsNumber.setValue(nrows);
+        rowsNumber.selectOptionContainingText(nrows);
+    }
+
+    public void clickNextButton(){
+        nextButton.click();
+    }
+
+    public void clickPreviousButton(){
+        previousButton.click();
     }
 }
